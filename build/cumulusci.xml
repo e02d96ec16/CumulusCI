@@ -107,8 +107,99 @@
     	isDowngrade = versionCompare(installedVersion, buildVersion) <= 0 ? false : true;
     	//console.log("Downgrade ["+installedVersion+"] to ["+buildVersion+"]? " + isDowngrade);
     	project.setProperty("downgradePackage", isDowngrade);
-]]>
+		]]>
   </scriptdef>
+
+  <property name="upgradePackage" value="false" />
+
+  <scriptdef name="upgradeCheck" language="javascript">
+    <attribute name="installedversion" />
+    <attribute name="buildversion" />
+    <!-- Taken from here: http://stackoverflow.com/questions/6701948/efficient-way-to-compare-version-strings-in-java -->
+    <![CDATA[
+    	var installedVersion;
+    	var buildVersion;
+    	var isUpgrade = false;
+    	function versionCompare(installedVersion, buildVersion) {
+    	    var IGNORE = 0;
+    	    var UPGRADE = 1;
+    	    var DOWNGRADE = -1;
+
+    	    var resolution = IGNORE;
+
+    	    var installedVersionString = String(installedVersion);
+    	    var buildVersionString = String(buildVersion);
+
+    	    //console.log("Received installed version string: " + installedVersionString);
+    	    //console.log("Received build version string: " + buildVersionString);
+
+    	    var threeLevelsDeepVersionsRegex = new RegExp("(\\d*)\\.?(\\d*)?\\.?(\\d*)?");
+
+    	    var installedVersionStringRegexResult = threeLevelsDeepVersionsRegex.exec(installedVersionString);
+    	    var buildVersionStringRegexResult = threeLevelsDeepVersionsRegex.exec(buildVersionString);
+
+    	    //console.log("Installed Major String: " + installedVersionStringRegexResult[1]);
+    	    //console.log("Installed Minor String: " + installedVersionStringRegexResult[2]);
+    	    //console.log("Installed Patch String: " + installedVersionStringRegexResult[3]);
+    	    
+    	    //console.log("Build Major String: " + buildVersionStringRegexResult[1]);
+    	    //console.log("Build Minor String: " + buildVersionStringRegexResult[2]);
+    	    //console.log("Build Patch String: " + buildVersionStringRegexResult[3]);
+
+    	    var installedVersionMajorNumber = parseInt(installedVersionStringRegexResult[1]);
+    	    var installedVersionMinorNumber = parseInt(installedVersionStringRegexResult[2]);
+    	    var installedVersionPatchNumber = parseInt(installedVersionStringRegexResult[3]);
+    	    
+    	    //console.log("Installed Major Number: " + installedVersionMajorNumber);
+    	    //console.log("Installed Minor Number: " + installedVersionMinorNumber);
+    	    //console.log("Installed Patch Number: " + installedVersionPatchNumber);
+
+    	    var buildVersionMajorNumber = parseInt(buildVersionStringRegexResult[1]);
+    	    var buildVersionMinorNumber = parseInt(buildVersionStringRegexResult[2]);
+    	    var buildVersionPatchNumber = parseInt(buildVersionStringRegexResult[3]);
+    	    
+    	    //console.log("Build Major Number: " + buildVersionMajorNumber);
+    	    //console.log("Build Minor Number: " + buildVersionMinorNumber);
+    	    //console.log("Build Patch Number: " + buildVersionPatchNumber);
+
+    	    if(
+    	        !isNaN(installedVersionMajorNumber) &&
+    	        !isNaN(buildVersionMajorNumber)
+    	    )
+    	    {
+    	        if(installedVersionMajorNumber < buildVersionMajorNumber){
+    	            resolution = UPGRADE;
+    	        }
+    	        else if(installedVersionMajorNumber > buildVersionMajorNumber){
+    	            resolution = DOWNGRADE;
+    	        }
+    	        else if(installedVersionMajorNumber === buildVersionMajorNumber)
+    	        {
+    	            if(
+    	                !isNaN(installedVersionMinorNumber) &&
+    	                !isNaN(buildVersionMinorNumber)
+    	            )
+    	            {
+    	                if(installedVersionMinorNumber < buildVersionMinorNumber){
+    	                    resolution = UPGRADE;
+    	                }
+    	                else if(installedVersionMinorNumber > buildVersionMinorNumber){
+    	                    resolution = DOWNGRADE;
+    	                }
+    	                else if(installedVersionMinorNumber === buildVersionMinorNumber){
+    	                    resolution = IGNORE;
+    	                    //console.log("Patch difference only.")
+    	                }
+    	            }
+    	        }
+    	    }
+    	    return resolution;  
+    	}
+    	isUpgrade = versionCompare(installedVersion, buildVersion) <= 0 ? false : true;
+    	//console.log("Upgrade ["+installedVersion+"] to ["+buildVersion+"]? " + isUpgrade);
+    	project.setProperty("upgradePackage", isUpgrade);
+		]]>
+	</scriptdef>
 
 
   <macrodef name="installPackage" description="Installs the given managed package">
@@ -200,6 +291,7 @@
     <attribute name="version" description="The version to install (ex. 1.3).  Passing Not Installed will ensure the package is uninstalled" />
     <sequential>
       <downgradeCheck installedVersion="${InstalledPackage.@{namespace}.versionNumber}" buildVersion="@{version}" />
+      <upgradeCheck installedVersion="${InstalledPackage.@{namespace}.versionNumber}" buildVersion="@{version}" />
       <if>
         <!-- NOTE: This assumes getPackageVersions was already run -->
         <not><equals arg1="${InstalledPackage.@{namespace}.versionNumber}" arg2="@{version}" /></not>
@@ -222,13 +314,22 @@
             </then>
             <else>
               <!-- just an upgrade, no need to uninstall first -->
-              <echo>Upgrading @{namespace} from ${InstalledPackage.@{namespace}.versionNumber} to @{version}</echo>
+              <echo>Nothing needs uninstalling.</echo>
             </else>
           </if>
           <if>
             <not><equals arg1="@{version}" arg2="Not Installed" /></not>
             <then>
-              <installPackage namespace="@{namespace}" version="@{version}" username="${sf.username}" password="${sf.password}"/>
+            	<if>
+            		<bool><equals arg1="${upgradePackage}" arg2="true" /></bool>
+            		<then>
+            			<echo>Upgrading @{namespace} from ${InstalledPackage.@{namespace}.versionNumber} to @{version}</echo>
+              		<installPackage namespace="@{namespace}" version="@{version}" username="${sf.username}" password="${sf.password}"/>
+              	</then>
+              	<else>
+              		<echo>Patch difference detected for @{namespace}. Won't do any un/installing.</echo>
+              	</else>
+              </if>
             </then>
           </if>
         </then>
