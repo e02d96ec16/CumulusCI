@@ -905,8 +905,8 @@
                     </then>
                     <else>
                       <var name="dest.types.xml" value="${dest.types.xml}  &lt;types>${line.separator}" />
-                      <var name="prev.type" value="${line.type}" /
->                    </else>
+                      <var name="prev.type" value="${line.type}" />
+                    </else>
                   </if>
                   <var name="dest.types.xml" value="${dest.types.xml}    &lt;members>${line.member}&lt;/members>${line.separator}" />
                 </then>
