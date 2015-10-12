@@ -922,7 +922,7 @@
         </then>
       </if>
 
-      <echo>
+      <echo level="info">
         Generated dest.types.xml : 
         ${dest.types.xml}
       </echo>

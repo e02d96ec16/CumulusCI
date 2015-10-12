@@ -229,7 +229,7 @@
         <antcall target="createUnmanagedPackage" />
 
         <!-- Uninstall all unpackaged code from the target org.  We have to do this first so we can uninstall and reinstall any managed packages not at the right version -->
-        <echo level="INFO">
+        <echo level="info">
             cumulusci.unmanaged.destroy.mode seen as : [${cumulusci.unmanaged.destroy.mode}]
         </echo>
         <if>
