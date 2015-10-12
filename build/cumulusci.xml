@@ -922,6 +922,10 @@
         </then>
       </if>
 
+      <echo>
+        Generated dest.types.xml : 
+        ${dest.types.xml}
+      </echo>
       <!-- Finalize the destructiveChanges.xml file -->
       <echo file="@{dir}/destructiveChanges.xml" append="true">${dest.types.xml}</echo>
       <echo file="@{dir}/destructiveChanges.xml" append="true">  &lt;version&gt;${cumulusci.package.apiVersion}&lt;/version&gt;${line.separator}</echo>
