@@ -940,6 +940,11 @@
         Directory where destructive changes is : 
         @{dir}
       </echo>
+      <loadfile property="destructiveChangesFileContent" srcFile="@{dir}/destructiveChanges.xml"/>
+      <echo level="info">
+        destructiveChanges.xml seen as : 
+        ${destructiveChangesFileContent}
+      </echo>
       <!-- clean up -->
       <delete file="@{srcdir}/package.xml.members" />
       <delete file="@{commdir}/package.xml.members" />
