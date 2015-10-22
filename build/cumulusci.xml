@@ -849,12 +849,12 @@
     <attribute name="srcdir" description="Source directory, usually containing metadata from target org fetched via retrievePackaged" />
     <attribute name="commdir" description="The directory whose metadata should be compared to srcdir.  Any metadata not in this directory's package.xml but in srcdir's package.xml will be added to destructiveChanges.xml" />
     <attribute name="dir" description="Target directory to create the destructiveChanges.xml package" />
-    <echo level="info">
-      Target org directory : @{srcdir}
-      Build directory : @{commdir}
-      Destructive changes directory : @{dir}
-    </echo>
     <sequential>
+      <echo level="info">
+        Target org directory : @{srcdir}
+        Build directory : @{commdir}
+        Destructive changes directory : @{dir}
+      </echo>
       <!-- Run xslt against package.xml files to generate a text file containing TYPE::MEMBER lines for each member for easier comparison later -->
       <xslt in="@{srcdir}/package.xml" out="@{srcdir}/package.xml.members" style="${cumulus_ci.basedir}/xsl/diff_package_xml.xsl" />
       <xslt in="@{commdir}/package.xml" out="@{commdir}/package.xml.members" style="${cumulus_ci.basedir}/xsl/diff_package_xml.xsl" />
@@ -927,10 +927,6 @@
         </then>
       </if>
 
-      <echo level="info">
-        Generated dest.types.xml : 
-        ${dest.types.xml}
-      </echo>
       <!-- Finalize the destructiveChanges.xml file -->
       <echo file="@{dir}/destructiveChanges.xml" append="true">${dest.types.xml}</echo>
       <echo file="@{dir}/destructiveChanges.xml" append="true">  &lt;version&gt;${cumulusci.package.apiVersion}&lt;/version&gt;${line.separator}</echo>
