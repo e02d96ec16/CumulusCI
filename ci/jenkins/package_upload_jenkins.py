@@ -100,16 +100,19 @@ class PackageUpload(object):
 
     def __init__(self, instance_url, refresh_token, package, oauth_client_id, oauth_client_secret, oauth_callback_url, selenium_url):
         self.instance_url = instance_url
-        print 'Instance URL is : ' + instance_url
-        sys.stdout.flush()
+        print 'Instance URL is : %s' % self.instance_url
         self.refresh_token = refresh_token
         self.package = package
-        print 'Package is : ' + package
+        print 'Package is : %s' % self.package
         sys.stdout.flush()
         self.oauth_client_id = oauth_client_id
+        print 'OAuth Client ID : %s' % self.oauth_client_id
         self.oauth_client_secret = oauth_client_secret
+        print 'OAuth Client Secret : %s' % oauth_client_secret
         self.oauth_callback_url = oauth_callback_url
+        print 'OAuth Callback URL : %s' %self.oauth_callback_url
         self.selenium_url = selenium_url
+        print 'Selenium URL : %s' % self.selenium_url
 
     def build_package(self, build_name):
         """ Builds a managed package by calling SauceLabs via Selenium to click the Upload button """ 
@@ -133,8 +136,12 @@ class PackageUpload(object):
         print 'Loaded package listing page'
         sys.stdout.flush()
 
-        # Wait at most 60 seconds for the page to load before attempting to click
-        WebDriverWait(driver, 60).until(lambda d: d.execute_script('return document.readyState') == 'complete')
+        packageLinks = driver.find_element_by_xpath("//th[contains(@class,'dataCell')]/a")
+
+        print 'Packages on this page : '
+        for packageLink in packageLinks
+            print 'Package name : %s' % packageLink.text
+        print 'End of packages enumeration'
         # Click the link to the package
         driver.find_element_by_xpath("//th[contains(@class,'dataCell')]/a[text()='%s']" % self.package).click()
 
