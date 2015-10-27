@@ -131,7 +131,7 @@ class PackageUpload(object):
 
         # Click the link to the package
         print 'Page currently on : ' + driver.current_url
-        driver.save_screenshot('package-listing.png')
+        driver.save_screenshot('~/package-listing.png')
         print 'Saved screenshot of current page.'
         sys.stdout.flush()
         driver.find_element_by_xpath("//th[contains(@class,'dataCell')]/a[text()='%s']" % self.package).click()
