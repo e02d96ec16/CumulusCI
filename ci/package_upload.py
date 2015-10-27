@@ -8,6 +8,7 @@ import sys
 from time import sleep
 from urllib import quote
 from selenium import webdriver
+from selenium.webdriver.support.ui import WebDriverWait
 
 class SalesforceOAuth2(object):
     authorization_url = '/services/oauth2/authorize'
