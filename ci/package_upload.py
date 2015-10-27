@@ -130,8 +130,10 @@ class PackageUpload(object):
         sys.stdout.flush()
 
         # Wait at most 60 seconds for the page to load before attempting to click
-        WebDriverWait(driver, 60).until(lambda d: d.execute_script('return document.readyState') == 'complete')
+        # WebDriverWait(driver, 60).until(lambda d: d.execute_script('return document.readyState') == 'complete')
         # Click the link to the package
+        print 'Page currently on : ' + driver.current_url
+        driver.save_screenshot('./package-listing.png');
         driver.find_element_by_xpath("//th[contains(@class,'dataCell')]/a[text()='%s']" % self.package).click()
 
         # Update Status
