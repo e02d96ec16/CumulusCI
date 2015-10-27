@@ -100,8 +100,12 @@ class PackageUpload(object):
 
     def __init__(self, instance_url, refresh_token, package, oauth_client_id, oauth_client_secret, oauth_callback_url, selenium_url):
         self.instance_url = instance_url
+        print 'Instance URL is : ' + instance_url
+        sys.stdout.flush()
         self.refresh_token = refresh_token
         self.package = package
+        print 'Package is : ' + package
+        sys.stdout.flush()
         self.oauth_client_id = oauth_client_id
         self.oauth_client_secret = oauth_client_secret
         self.oauth_callback_url = oauth_callback_url
