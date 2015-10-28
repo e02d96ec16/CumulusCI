@@ -327,6 +327,10 @@
     <!-- !!!WARNING!!!: DO NOT run this against a real production org as it will delete everything.  It is designed to clear the target org to ensure a clean build test. -->
     <target name="deployManagedBeta">
         <echo>============================================================================</echo>
+        <echo message="Beta username : ${sf.username}"/>
+        <echo message="Beta passwordtoken : ${sf.password}"/>
+
+
         <antcall target="preDeployManagedBeta" />
 
         <echo>BUILD_COMMIT = ${env.BUILD_COMMIT}</echo>
