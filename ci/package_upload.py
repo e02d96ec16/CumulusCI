@@ -213,6 +213,14 @@ class PackageUpload(object):
         refresh_response = sf.refresh_token(self.refresh_token)
         if refresh_response.get('access_token', None):
             self.access_token = refresh_response['access_token']
+        else:
+            print 'Did not get an access token after refresh!'
+            print 'Response : '
+            print refresh_response
+            print 'OAuth Client ID : %s' % self.oauth_client_id
+            print 'OAuth Client Secret : %s' % self.oauth_client_secret
+            print 'OAuth Callback URL : %s' % self.oauth_callback_url
+            print 'OAuth Refresh Token : %s' % self.refresh_token
 
     def get_selenium(self):
         # Always refresh the token to ensure a long enough session to build the package
