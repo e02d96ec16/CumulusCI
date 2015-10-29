@@ -1,5 +1,7 @@
 <project name="cumulus_ci" default="deployWithoutTest" basedir="." xmlns:sf="antlib:com.salesforce">
-
+    <echo message="======================================================="/>
+    <echo message="============= Running a fork of CumulusCI ============="/>
+    <echo message="======================================================="/>
     <dirname property="cumulus_ci.basedir" file="${ant.file.cumulus_ci}"/>
 
     <include file="${cumulus_ci.basedir}/cumulusci.xml" />
@@ -327,9 +329,6 @@
     <!-- !!!WARNING!!!: DO NOT run this against a real production org as it will delete everything.  It is designed to clear the target org to ensure a clean build test. -->
     <target name="deployManagedBeta">
         <echo>============================================================================</echo>
-        <echo message="Beta username : ${sf.username}"/>
-        <echo message="Beta passwordtoken : ${sf.password}"/>
-
 
         <antcall target="preDeployManagedBeta" />
 
