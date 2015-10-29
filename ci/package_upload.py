@@ -119,7 +119,7 @@ class PackageUpload(object):
             print "Sleeping 5 more seconds to try again.  Last attempt to connect to Selenium failed"
             sleep(5)
             driver = self.get_selenium()
-
+        print 'This is printed immediately after getting selenium'
         driver.implicitly_wait(90) # seconds
 
         # Load the packages list page
