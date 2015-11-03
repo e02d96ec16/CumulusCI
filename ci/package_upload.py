@@ -234,14 +234,23 @@ class PackageUpload(object):
 
 def package_upload():
     oauth_client_id = os.environ.get('OAUTH_CLIENT_ID')
+    print "OAuth client ID seen as : %s" % oauth_client_id
     oauth_client_secret = os.environ.get('OAUTH_CLIENT_SECRET')
+    print "OAuth cleint secret seen as : %s" % oauth_client_secret
     oauth_callback_url = os.environ.get('OAUTH_CALLBACK_URL')
+    print "OAuth client callback URL seen as : %s" % oauth_callback_url
     instance_url = os.environ.get('INSTANCE_URL')
+    print "Instance URL seen as : %s" % instance_url
     refresh_token = os.environ.get('REFRESH_TOKEN')
+    print "Refresh token seen as : %s" % refresh_token
     package = os.environ.get('PACKAGE')
+    print "Package seen as : %s" % package
     build_name = os.environ.get('BUILD_NAME')
+    print "Build name seen as : %s" % build_name
     build_commit = os.environ.get('BUILD_COMMIT')
+    print "Build commit seen as : %s" % build_commit
     build_workspace = os.environ.get('BUILD_WORKSPACE')
+    print "Build workspace seen as : %s" % build_workspace
     
     uploader = PackageUpload(instance_url, refresh_token, package, oauth_client_id, oauth_client_secret, oauth_callback_url)
     uploader.build_package(build_name)
