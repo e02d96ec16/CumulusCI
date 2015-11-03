@@ -131,7 +131,7 @@ class PackageUpload(object):
 
         # Click the link to the package
         print 'Page currently on : ' + driver.current_url
-        driver.save_screenshot('~/package-listing.png')
+        driver.save_screenshot('package-listing.png')
         print 'Saved screenshot of current page.'
         sys.stdout.flush()
         driver.find_element_by_xpath("//th[contains(@class,'dataCell')]/a[text()='%s']" % self.package).click()
@@ -226,6 +226,7 @@ class PackageUpload(object):
         # Always refresh the token to ensure a long enough session to build the package
         self.refresh()
         start_url = '%s/secur/frontdoor.jsp?sid=%s' % (self.instance_url, self.access_token)
+        print 'Start URL seen as : %s' % start_url
 
         driver = webdriver.Firefox()
         driver.get(start_url)
