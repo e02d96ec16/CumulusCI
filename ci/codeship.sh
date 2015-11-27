@@ -318,7 +318,7 @@ if [ $BUILD_TYPE == "master" ]; then
     else
         echo
         echo "-----------------------------------------------------------------"
-        echo "Skipping GitHub Releaseand master to feature merge because the"
+        echo "Skipping GitHub Release and master to feature merge because the"
         echo "environment variable GITHUB_USERNAME is not configured."
         echo "-----------------------------------------------------------------"
         echo
