@@ -327,7 +327,10 @@
               		<installPackage namespace="@{namespace}" version="@{version}" username="${sf.username}" password="${sf.password}"/>
               	</then>
               	<else>
-              		<echo>Patch difference detected for @{namespace}. Won't do any un/installing.</echo>
+              		<echo>Patch difference detected for package namespace: @{namespace}</echo>
+                  <echo>Installed is: ${InstalledPackage.@{namespace}.versionNumber}</echo>
+                  <echo>Requested is: @{version}</echo>
+                  <echo>Won't do any un/installing.</echo>
               	</else>
               </if>
             </then>
