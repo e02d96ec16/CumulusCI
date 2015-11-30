@@ -22,7 +22,7 @@
   <property name="downgradePackage" value="false" />
   <property name="upgradePackage" value="false" />
 
-  <scriptdef name="downgradeCheck" language="javascript">
+  <scriptdef name="UpDownGradeCheck" language="javascript">
     <attribute name="installedversion" />
     <attribute name="buildversion" />
     <![CDATA[
@@ -210,8 +210,7 @@
     <attribute name="namespace" description="Package's name to be installed" />
     <attribute name="version" description="The version to install (ex. 1.3).  Passing Not Installed will ensure the package is uninstalled" />
     <sequential>
-      <downgradeCheck installedVersion="${InstalledPackage.@{namespace}.versionNumber}" buildVersion="@{version}" />
-      <upgradeCheck installedVersion="${InstalledPackage.@{namespace}.versionNumber}" buildVersion="@{version}" />
+      <UpDownGradeCheck installedVersion="${InstalledPackage.@{namespace}.versionNumber}" buildVersion="@{version}" />
       <if>
         <!-- NOTE: This assumes getPackageVersions was already run -->
         <not><equals arg1="${InstalledPackage.@{namespace}.versionNumber}" arg2="@{version}" /></not>
