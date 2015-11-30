@@ -26,6 +26,7 @@
     <attribute name="installedversion" />
     <attribute name="buildversion" />
     <![CDATA[
+      self.log('Checking for up/downgrade...');
       self.log("Installed Version parameter : " + attributes.get("installedversion"));
       self.log("Requested Version parameter : " + attributes.get("buildversion"));
 
@@ -111,6 +112,7 @@
     	}
 
       var versionComparisonResult = versionCompare(installedVersion, buildVersion);
+      self.log("Comparison outcome : ", versionComparisonResult);
     	isDowngrade = versionComparisonResult < 0 ? true : false;
       isUpgrade = versionComparisonResult > 0 ? true : false;
     	self.log("Downgrade ["+installedVersion+"] to ["+buildVersion+"]? " + isDowngrade);
