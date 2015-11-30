@@ -30,7 +30,7 @@
       self.log("Installed Version parameter : " + attributes.get("installedversion"));
       self.log("Requested Version parameter : " + attributes.get("buildversion"));
 
-      var installedVersion = attributes.get("installedversion");
+      var installedVersion = attributes.get("installedversion") === "Not Installed" ? 0.0 : attributes.get("installedversion");
       var buildVersion = attributes.get("buildversion");
       var isDowngrade = false;
       var isUpgrade = false;
