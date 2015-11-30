@@ -24,7 +24,6 @@
   <scriptdef name="downgradeCheck" language="javascript">
     <attribute name="installedversion" />
     <attribute name="buildversion" />
-    <!-- Taken from here: http://stackoverflow.com/questions/6701948/efficient-way-to-compare-version-strings-in-java -->
     <![CDATA[
       var installedVersion = attributes.get("installedversion");
       var buildVersion = attributes.get("buildversion");
