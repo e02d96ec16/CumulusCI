@@ -115,7 +115,8 @@
       isUpgrade = versionComparisonResult > 0 ? true : false;
     	self.log("Downgrade ["+installedVersion+"] to ["+buildVersion+"]? " + isDowngrade);
       self.log("Upgrade ["+installedVersion+"] to ["+buildVersion+"]? " + isUpgrade);
-    	project.setProperty("downgradePackage", isDowngrade);
+      project.setProperty("downgradePackage", isDowngrade);
+    	project.setProperty("upgradePackage", isUpgrade);
 		]]>
   </scriptdef>
 
