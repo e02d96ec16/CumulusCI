@@ -26,10 +26,14 @@
     <attribute name="installedversion" />
     <attribute name="buildversion" />
     <![CDATA[
+      self.log("Installed Version parameter : " + attributes.get("installedversion"));
+      self.log("Requested Version parameter : " + attributes.get("buildversion"));
+
       var installedVersion = attributes.get("installedversion");
       var buildVersion = attributes.get("buildversion");
       var isDowngrade = false;
       var isUpgrade = false;
+
     	function versionCompare(installedVersion, buildVersion) {
     	    var IGNORE = 0;
     	    var UPGRADE = 1;
@@ -40,37 +44,37 @@
     	    var installedVersionString = String(installedVersion);
     	    var buildVersionString = String(buildVersion);
 
-    	    //console.log("Received installed version string: " + installedVersionString);
-    	    //console.log("Received build version string: " + buildVersionString);
+    	    self.log("Received installed version string: " + installedVersionString);
+    	    self.log("Received build version string: " + buildVersionString);
 
     	    var threeLevelsDeepVersionsRegex = new RegExp("(\\d*)\\.?(\\d*)?\\.?(\\d*)?");
 
     	    var installedVersionStringRegexResult = threeLevelsDeepVersionsRegex.exec(installedVersionString);
     	    var buildVersionStringRegexResult = threeLevelsDeepVersionsRegex.exec(buildVersionString);
 
-    	    //console.log("Installed Major String: " + installedVersionStringRegexResult[1]);
-    	    //console.log("Installed Minor String: " + installedVersionStringRegexResult[2]);
-    	    //console.log("Installed Patch String: " + installedVersionStringRegexResult[3]);
+    	    self.log("Installed Major String: " + installedVersionStringRegexResult[1]);
+    	    self.log("Installed Minor String: " + installedVersionStringRegexResult[2]);
+    	    self.log("Installed Patch String: " + installedVersionStringRegexResult[3]);
     	    
-    	    //console.log("Build Major String: " + buildVersionStringRegexResult[1]);
-    	    //console.log("Build Minor String: " + buildVersionStringRegexResult[2]);
-    	    //console.log("Build Patch String: " + buildVersionStringRegexResult[3]);
+    	    self.log("Build Major String: " + buildVersionStringRegexResult[1]);
+    	    self.log("Build Minor String: " + buildVersionStringRegexResult[2]);
+    	    self.log("Build Patch String: " + buildVersionStringRegexResult[3]);
 
     	    var installedVersionMajorNumber = parseInt(installedVersionStringRegexResult[1]);
     	    var installedVersionMinorNumber = parseInt(installedVersionStringRegexResult[2]);
     	    var installedVersionPatchNumber = parseInt(installedVersionStringRegexResult[3]);
     	    
-    	    //console.log("Installed Major Number: " + installedVersionMajorNumber);
-    	    //console.log("Installed Minor Number: " + installedVersionMinorNumber);
-    	    //console.log("Installed Patch Number: " + installedVersionPatchNumber);
+    	    self.log("Installed Major Number: " + installedVersionMajorNumber);
+    	    self.log("Installed Minor Number: " + installedVersionMinorNumber);
+    	    self.log("Installed Patch Number: " + installedVersionPatchNumber);
 
     	    var buildVersionMajorNumber = parseInt(buildVersionStringRegexResult[1]);
     	    var buildVersionMinorNumber = parseInt(buildVersionStringRegexResult[2]);
     	    var buildVersionPatchNumber = parseInt(buildVersionStringRegexResult[3]);
     	    
-    	    //console.log("Build Major Number: " + buildVersionMajorNumber);
-    	    //console.log("Build Minor Number: " + buildVersionMinorNumber);
-    	    //console.log("Build Patch Number: " + buildVersionPatchNumber);
+    	    self.log("Build Major Number: " + buildVersionMajorNumber);
+    	    self.log("Build Minor Number: " + buildVersionMinorNumber);
+    	    self.log("Build Patch Number: " + buildVersionPatchNumber);
 
     	    if(
     	        !isNaN(installedVersionMajorNumber) &&
@@ -98,7 +102,7 @@
     	                }
     	                else if(installedVersionMinorNumber === buildVersionMinorNumber){
     	                    resolution = IGNORE;
-    	                    //console.log("Patch difference only.")
+    	                    self.log("Patch difference only.")
     	                }
     	            }
     	        }
@@ -109,6 +113,8 @@
       var versionComparisonResult = versionCompare(installedVersion, buildVersion);
     	isDowngrade = versionComparisonResult < 0 ? true : false;
       isUpgrade = versionComparisonResult > 0 ? true : false;
+    	self.log("Downgrade ["+installedVersion+"] to ["+buildVersion+"]? " + isDowngrade);
+      self.log("Upgrade ["+installedVersion+"] to ["+buildVersion+"]? " + isUpgrade);
     	project.setProperty("downgradePackage", isDowngrade);
 		]]>
   </scriptdef>
