@@ -111,11 +111,13 @@
     	    return resolution;  
     	}
 
-      if(buildVersion !== "Not Installed"){
-        var versionComparisonResult = versionCompare(installedVersion, buildVersion);
-        self.log("Comparison outcome : " + versionComparisonResult);
-        isDowngrade = versionComparisonResult < 0 ? true : false;
-        isUpgrade = versionComparisonResult > 0 ? true : false;
+      if(buildVersion !== installedVersion){
+        if(buildVersion !== "Not Installed"){
+          var versionComparisonResult = versionCompare(installedVersion, buildVersion);
+          self.log("Comparison outcome : " + versionComparisonResult);
+          isDowngrade = versionComparisonResult < 0 ? true : false;
+          isUpgrade = versionComparisonResult > 0 ? true : false;
+        }
       }
     	self.log("Downgrade ["+installedVersion+"] to ["+buildVersion+"]? " + isDowngrade);
       self.log("Upgrade ["+installedVersion+"] to ["+buildVersion+"]? " + isUpgrade);
