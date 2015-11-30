@@ -103,9 +103,9 @@
     	    }
     	    return resolution;  
     	}
-    	isDowngrade = versionCompare(installedVersion, buildVersion) <= 0 ? false : true;
-    	//console.log("Downgrade ["+installedVersion+"] to ["+buildVersion+"]? " + isDowngrade);
+
       var versionComparisonResult = versionCompare(installedVersion, buildVersion);
+    	isDowngrade = versionComparisonResult < 0 ? true : false;
     	project.setProperty("downgradePackage", isDowngrade);
 		]]>
   </scriptdef>
