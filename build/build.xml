@@ -841,6 +841,12 @@
         <updateMetaXmlApi dir="${basedir}/src" apiVersion="${cumulusci.package.apiVersion}" />
     </target>
 
+    <target name="updateMetaXmlApi">
+        <echo>Updating all metadata API version to: ${cumulusci.package.apiVersion}</echo>
+        <updateMetaXmlApi dir="${basedir}/src" apiVersion="${cumulusci.package.apiVersion}" />
+        <echo>Finished updating all metadata API version.</echo>
+    </target>
+
     <!-- Update the Admin.profile to grant all FLS permissions -->
     <target name="deployUpdatedAdminProfile">
         <echo>Retrieving Admin.profile</echo>
