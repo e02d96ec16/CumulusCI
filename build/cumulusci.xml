@@ -572,6 +572,8 @@
                   <!-- Unset basename properties for next execution since we're using basename and propertyregex which will not overwrite a property -->
                   <var name="component" unset="true" />
                   <var name="component_file" unset="true" />
+                  <loadfile property="built.xml.file" srcFile="@{xmlfile}"/>
+                  <echo>${built.xml.file}</echo>
                 </sequential>
               </for>
 
