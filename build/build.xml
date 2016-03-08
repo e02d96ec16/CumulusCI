@@ -889,7 +889,11 @@
         <copy todir="src.orig" preservelastmodified="true">
           <fileset dir="src" />
         </copy>
+        <loadfile name="src.test.1" srcFile="src/package.xml"/>
+        <echo>${src.test.1}</echo>
         <stripManagedToken dir="src" />
+        <loadfile name="src.test.2" value="src/package.xml"/>
+        <echo>${src.test.2}</echo>
     </target>
 
     <!-- Revert the src directory from createManagedSrc -->
