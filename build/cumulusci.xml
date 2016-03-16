@@ -572,8 +572,6 @@
                   <!-- Unset basename properties for next execution since we're using basename and propertyregex which will not overwrite a property -->
                   <var name="component" unset="true" />
                   <var name="component_file" unset="true" />
-                  <loadfile property="built.xml.file" srcFile="@{xmlfile}"/>
-                  <echo>${built.xml.file}</echo>
                 </sequential>
               </for>
 
@@ -672,7 +670,7 @@
               <replaceregexp file="${xslt_rendered_file}" match="___parentelement___" replace="@{parentelement}" flags="g" />
               <replaceregexp file="${xslt_rendered_file}" match="___element___" replace="@{element}" flags="g" />
               <replaceregexp file="${xslt_rendered_file}" match="___nameelement___" replace="@{nameelement}" flags="g" />
-
+             
               <!-- Run xslt to build a file for each parent containing <members/> elements for components -->
               <getWhitelistForObjectAndType object="${parent}" type="@{typename}" property="obj_type_whitelist" />
               <xslt in="@{file}" out="@{dir}/${parent_file}.@{typename}" style="${xslt_rendered_file}">
