@@ -411,10 +411,13 @@
                     </and>
                 </and>
                 <then>
-                    <!-- Fetch the version.properties file for the release from BitBucket -->
+                    <echo>Fetching the version.properties file for the release from BitBucket...</echo>
+                    <property name="BitBucket.URL" value="https://bitbucket.org/${env.BITBUCKET_REPO_OWNER}/${env.BITBUCKET_REPO_SLUG}/raw/${env.BUILD_COMMIT}"/>
+                    <echo>BitBucket URL: ${BitBucket.URL}</echo>
                     <exec executable="curl">
-                        <arg line="-u '${env.BITBUCKET_USERNAME}:${env.BITBUCKET_PASSWORD}' https://bitbucket.org/${env.BITBUCKET_REPO_OWNER}/${env.BITBUCKET_REPO_SLUG}/raw/${env.BUILD_COMMIT}/version.properties -o ${basedir}/version.properties.beta"/>
+                        <arg line="-u '${env.BITBUCKET_USERNAME}:${env.BITBUCKET_PASSWORD}' ${BitBucket.URL}/version.properties -o ${basedir}/version.properties.beta"/>
                     </exec>
+                    <echo>Saved file to ${basedir}</echo>
                 </then>
             </elseif>
         </if>
