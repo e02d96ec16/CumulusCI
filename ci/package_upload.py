@@ -123,10 +123,12 @@ class PackageUpload(object):
         driver.implicitly_wait(90) # seconds
 
         # Load the packages list page
-        driver.get('%s/0A2' % self.instance_url)
+        managed_packages_list_page_url = '%s/0A2' % (self.instance_url)
+        print 'Page currently on : ' + driver.current_url
+        print 'Going to URL: ' + managed_packages_list_page_url
+        driver.get(managed_packages_list_page_url)
 
         # Update Status
-        print 'Loaded package listing page'
         sys.stdout.flush()
 
         # Click the link to the package
