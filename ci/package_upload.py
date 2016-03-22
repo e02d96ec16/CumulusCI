@@ -188,9 +188,11 @@ class PackageUpload(object):
                 # Get the version number and install url
                 version = driver.find_element_by_xpath("//th[text()='Version Number']/following-sibling::td/span").text
                 install_url = driver.find_element_by_xpath("//a[contains(@name, ':pkgInstallUrl')]").get_attribute('href')
+                release_timestamp = driver.find_element_by_xpath("//span[contains(@id, ':uploadedByNameLinkPanel')]").text.rpartition(',')[-1].strip() # rpartition part functions as a "string before last"
             
                 self.version = version
                 self.install_url = install_url
+                self.timestamp = release_timestamp
     
                 break
 
@@ -261,12 +263,14 @@ def package_upload():
     print '-------------------'
     print 'Version: %s' % uploader.version
     print 'Install URL: %s' % uploader.install_url
+    print 'Timestamp: %s' % uploader.timestamp
     print 'Writing package.properties file'
     sys.stdout.flush()
     f = open('%s/package.properties' % build_workspace, 'w')
     f.write('PACKAGE_VERSION=%s\n' % uploader.version)
     f.write('INSTALL_URL=%s\n' % uploader.install_url)
     f.write('BUILD_COMMIT=%s\n' % build_commit)
+    f.write('TIMESTAMP=%s\n' % uploader.timestamp)
     f.close()
 
 if __name__ == '__main__':
