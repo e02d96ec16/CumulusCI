@@ -377,16 +377,25 @@
             </else>
         </if>
 
-        <!-- Fetch the version.properties file for the release from GitHub -->
+        <!-- Fetch the version.properties file for the release from the repository -->
         <if>
             <and>
-                <isset property="env.GITHUB_USERNAME" />
-                <not>
-                    <equals arg1="env.GITHUB_USERNAME" arg2="" />
-                </not>
+                <and>
+                    <isset property="env.GITHUB_USERNAME" />
+                    <not>
+                        <equals arg1="env.GITHUB_USERNAME" arg2="" />
+                    </not>     
+                </and>
+                <and>
+                    <isset property="env.GITHUB_PASSWORD" />
+                    <not>
+                        <equals arg1="env.GITHUB_PASSWORD" arg2="" />
+                    </not>
+                </and>
             </and>
             <then>
-                <!-- Fetch the version.properties file for the release from GitHub -->
+                <echo>GitHub credentials found!</echo>
+                <echo>Fetching the version.properties file for the release...</echo>
                 <exec executable="curl">
                     <arg line="-u '${env.GITHUB_USERNAME}:${env.GITHUB_PASSWORD}' --header 'Accept: application/vnd.github.v3.raw' https://api.github.com/repos/${env.GITHUB_ORG_NAME}/${env.GITHUB_REPO_NAME}/contents/version.properties?ref=${managed_beta_tag} -o ${basedir}/version.properties.beta"/>
                 </exec>
@@ -411,13 +420,12 @@
                     </and>
                 </and>
                 <then>
-                    <echo>Fetching the version.properties file for the release from BitBucket...</echo>
+                    <echo>BitButcket credentials found!</echo>
+                    <echo>Fetching the version.properties file for the release...</echo>
                     <property name="BitBucket.URL" value="https://bitbucket.org/${env.BITBUCKET_REPO_OWNER}/${env.BITBUCKET_REPO_SLUG}/raw/${env.BUILD_COMMIT}"/>
-                    <echo>BitBucket URL: ${BitBucket.URL}</echo>
                     <exec executable="curl">
                         <arg line="-u '${env.BITBUCKET_USERNAME}:${env.BITBUCKET_PASSWORD}' ${BitBucket.URL}/version.properties -o ${basedir}/version.properties.beta"/>
                     </exec>
-                    <echo>Saved file to ${basedir}</echo>
                 </then>
             </elseif>
         </if>
