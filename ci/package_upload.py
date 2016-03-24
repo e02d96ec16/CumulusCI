@@ -137,7 +137,7 @@ class PackageUpload(object):
             print "Actual: " + driver.current_url
             print "Sleeping " + sleep_amount_per_attempt + " more seconds then trying again."
             driver.get(managed_packages_list_page_url)
-            number_of_attempts++
+            number_of_attempts += 1
             sleep(sleep_amount_per_attempt)
 
         # Update Status
