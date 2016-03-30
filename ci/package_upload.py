@@ -279,11 +279,20 @@ def package_upload():
     print 'Writing package.properties file'
     sys.stdout.flush()
     f = open('%s/package.properties' % build_workspace, 'w')
+    f.write('PACKAGE_VERSION=%s\n' % uploader.version)
+    f.write('INSTALL_URL=%s\n' % uploader.install_url)
+    f.write('BUILD_COMMIT=%s\n' % build_commit)
+    f.write('TIMESTAMP=%s\n' % uploader.timestamp)
+    f.close()
+    print 'Writing package.properties.var file'
+    sys.stdout.flush()
+    f = open('%s/package.properties.var' % build_workspace, 'w')
     f.write('PACKAGE_VERSION="%s"\n' % uploader.version)
     f.write('INSTALL_URL="%s"\n' % uploader.install_url)
     f.write('BUILD_COMMIT="%s"\n' % build_commit)
     f.write('TIMESTAMP="%s"\n' % uploader.timestamp)
     f.close()
+
 
 if __name__ == '__main__':
     try:

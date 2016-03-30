@@ -1,5 +1,5 @@
 #!/bin/sh
-version_info_file_full_path="$BUILD_WORKSPACE/package.properties"
+version_info_file_full_path="$BUILD_WORKSPACE/package.properties.var"
 if [ -e "$version_info_file_full_path" ]; then
   if [ "$HIPCHAT_ROOM_NOTIFICATION_URL" ]; then
     echo 'Notifying HipChat...'
