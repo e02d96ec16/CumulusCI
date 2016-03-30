@@ -108,7 +108,7 @@ class PackageUpload(object):
         self.oauth_callback_url = oauth_callback_url
 
     def build_package(self, build_name):
-        """ Builds a managed package by calling SauceLabs via Selenium to click the Upload button """ 
+        """ Builds a managed package by calling SauceLabs via Selenium to click the Upload button """
         # Update Status
         print 'Starting browser'
         sys.stdout.flush()
@@ -196,22 +196,22 @@ class PackageUpload(object):
                 # Update Status
                 print status_message
                 sys.stdout.flush()
-    
+
                 # Get the version number and install url
                 version = driver.find_element_by_xpath("//th[text()='Version Number']/following-sibling::td/span").text
                 install_url = driver.find_element_by_xpath("//a[contains(@name, ':pkgInstallUrl')]").get_attribute('href')
                 release_timestamp = driver.find_element_by_xpath("//span[contains(@id, ':uploadedByNameLinkPanel')]").text.rpartition(',')[-1].strip() # rpartition part functions as a "string before last"
-            
+
                 self.version = version
                 self.install_url = install_url
                 self.timestamp = release_timestamp
-    
+
                 break
 
             if status_message.startswith('Upload Failed'):
                 print status_message
                 sys.stdout.flush()
-                break 
+                break
 
             # Update Status
             if status_message != last_status:
@@ -221,7 +221,7 @@ class PackageUpload(object):
 
             sleep(1)
 
-        driver.quit()    
+        driver.quit()
 
 
     def refresh(self):
@@ -267,10 +267,10 @@ def package_upload():
     print "Build commit seen as : %s" % build_commit
     build_workspace = os.environ.get('BUILD_WORKSPACE')
     print "Build workspace seen as : %s" % build_workspace
-    
+
     uploader = PackageUpload(instance_url, refresh_token, package, oauth_client_id, oauth_client_secret, oauth_callback_url)
     uploader.build_package(build_name)
-    
+
     print 'Build Complete'
     print '-------------------'
     print 'Version: %s' % uploader.version
@@ -279,10 +279,10 @@ def package_upload():
     print 'Writing package.properties file'
     sys.stdout.flush()
     f = open('%s/package.properties' % build_workspace, 'w')
-    f.write('PACKAGE_VERSION=%s\n' % uploader.version)
-    f.write('INSTALL_URL=%s\n' % uploader.install_url)
-    f.write('BUILD_COMMIT=%s\n' % build_commit)
-    f.write('TIMESTAMP=%s\n' % uploader.timestamp)
+    f.write('PACKAGE_VERSION="%s"\n' % uploader.version)
+    f.write('INSTALL_URL="%s"\n' % uploader.install_url)
+    f.write('BUILD_COMMIT="%s"\n' % build_commit)
+    f.write('TIMESTAMP="%s"\n' % uploader.timestamp)
     f.close()
 
 if __name__ == '__main__':
@@ -295,4 +295,3 @@ if __name__ == '__main__':
         traceback.print_exception(exc_type, exc_value, exc_traceback, file=sys.stdout)
         print '-'*60
         sys.exit(1)
-
