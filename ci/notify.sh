@@ -17,5 +17,5 @@ if [ -e "$version_info_file_full_path" ]; then
     echo "No notifiers found"
   fi
 else
-  echo "File with package information not found: $BUILD_WORKSPACE/package.properties"
+  echo "File with package information not found: $version_info_file_full_path"
 fi
