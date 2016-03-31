@@ -13,6 +13,19 @@ if [ -e "$version_info_file_full_path" ]; then
     # Passive or active level
     hipchat_notification_is_loud=true
     hipchat_notification_message_format="html"
+
+    # Default values
+    hipchat_default_atlas_card_icon="https://d3oaxc4q5k2d6q.cloudfront.net/m/418317b0b62e/emoji/img/package.svg" # A Bitbucket emoji of a package
+    hipchat_default_notification_color="yellow" # same as HipChat's default
+    if [ ! "$HIPCHAT_ATLAS_CARD_ICON" ]; then
+      echo "Using default notification icon: $hipchat_default_atlas_card_icon"
+      HIPCHAT_ATLAS_CARD_ICON="$hipchat_default_atlas_card_icon"
+    fi
+    if [ ! "$HIPCHAT_NOTIFICATION_COLOR" ]; then
+      echo "Using default notification color: $hipchat_default_notification_color"
+      HIPCHAT_NOTIFICATION_COLOR="$hipchat_default_notification_color"
+    fi
+
     curl  -d "\
             {\
               \"color\":\"$HIPCHAT_NOTIFICATION_COLOR\",\
