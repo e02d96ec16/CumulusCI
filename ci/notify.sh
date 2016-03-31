@@ -5,6 +5,7 @@ if [ -e "$version_info_file_full_path" ]; then
     echo 'Notifying HipChat...'
     # shellcheck source=/dev/null
     . "$version_info_file_full_path"
+    PACKAGE_ID=$(echo "$INSTALL_URL" | cut -d"=" -f 2)
     notification_color="purple"
     notification_message="<a href='$INSTALL_URL'>$PACKAGE_VERSION</a><br/>$TIMESTAMP"
     notification_notifies=true
