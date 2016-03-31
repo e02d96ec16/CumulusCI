@@ -1,13 +1,13 @@
 #!/bin/sh
 version_info_file_full_path="$BUILD_WORKSPACE/package.properties.var"
 if [ -e "$version_info_file_full_path" ]; then
+  # Loading the package version information as variables
+  # shellcheck source=/dev/null
+  . "$version_info_file_full_path"
+  # Extracting the package ID from the installation URL
+  PACKAGE_ID=$(echo "$INSTALL_URL" | cut -d"=" -f 2)
   if [ "$HIPCHAT_ROOM_NOTIFICATION_URL" ]; then
     echo 'Notifying HipChat...'
-    # Loading the package version information as variables
-    # shellcheck source=/dev/null
-    . "$version_info_file_full_path"
-    # Extracting the package ID from the installation URL
-    PACKAGE_ID=$(echo "$INSTALL_URL" | cut -d"=" -f 2)
     # This message is still required. HipChat reverts to it in environments without full functionality support.
     hipchat_fallback_notification_message="<a href='$INSTALL_URL'>$PACKAGE_VERSION</a><br/>$TIMESTAMP"
     # Passive or active level
