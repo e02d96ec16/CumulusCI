@@ -1,4 +1,16 @@
 #!/bin/sh
+# Dependencies
+#
+## Environment variables
+# [req] BUILD_WORKSPACE
+#
+### HipChat
+# [req] HIPCHAT_ROOM_NOTIFICATION_URL
+# [opt] HIPCHAT_ATLAS_CARD_ICON
+# [opt] HIPCHAT_NOTIFICATION_COLOR
+#
+## Files
+# [req] package.properties.var @ $BUILD_WORKSPACE/
 version_info_file_full_path="$BUILD_WORKSPACE/package.properties.var"
 if [ -e "$version_info_file_full_path" ]; then
   # Loading the package version information as variables
