@@ -6,7 +6,6 @@ if [ -e "$version_info_file_full_path" ]; then
     # shellcheck source=/dev/null
     . "$version_info_file_full_path"
     PACKAGE_ID=$(echo "$INSTALL_URL" | cut -d"=" -f 2)
-    notification_color="purple"
     # This message is still required. HipChat reverts to it in environments without full functionality support.
     notification_message="<a href='$INSTALL_URL'>$PACKAGE_VERSION</a><br/>$TIMESTAMP"
     # Passive or active level
@@ -14,7 +13,7 @@ if [ -e "$version_info_file_full_path" ]; then
     notification_message_format="html"
     curl  -d "\
             {\
-              \"color\":\"$notification_color\",\
+              \"color\":\"$NOTIFICATION_COLOR\",\
               \"message\":\"$notification_message\",\
               \"notify\":$notification_notifies,\
               \"message_format\":\"$notification_message_format\",\
