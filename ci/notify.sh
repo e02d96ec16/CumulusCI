@@ -6,9 +6,9 @@ if [ -e "$version_info_file_full_path" ]; then
     # shellcheck source=/dev/null
     . "$version_info_file_full_path"
     notification_color="purple"
-    notification_message="$PACKAGE_VERSION\n$INSTALL_URL\n$TIMESTAMP"
+    notification_message="<a href='$INSTALL_URL'>$PACKAGE_VERSION</a><br/>$TIMESTAMP"
     notification_notifies=true
-    notification_message_format="text"
+    notification_message_format="html"
 
     curl  -d "{\"color\":\"$notification_color\",\"message\":\"$notification_message\",\"notify\":$notification_notifies,\"message_format\":\"$notification_message_format\"}" \
           -H 'Content-Type: application/json' \
