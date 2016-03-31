@@ -23,7 +23,7 @@ if [ -e "$version_info_file_full_path" ]; then
                 \"style\": \"application\",\
                 \"format\": \"compact\",\
                 \"url\" : \"$INSTALL_URL\",\
-                \"id\": \"1\",\
+                \"id\": \"13599296\",\
                 \"title\" : \"New package released\",\
                 \"icon\": {\
                   \"url\": \"$HIPCHAT_ATLAS_CARD_ICON\"\
