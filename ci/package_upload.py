@@ -131,11 +131,11 @@ class PackageUpload(object):
         number_of_attempts = 1
         sleep_amount_per_attempt = 15
         while(driver.current_url != managed_packages_list_page_url and number_of_attempts <= max_number_of_attempts ):
-            print "Attempt " + number_of_attempts + " of " + max_number_of_attempts
+            print "Attempt " + str(number_of_attempts) + " of " + str(max_number_of_attempts)
             print "Selenium is not yet on the packages page."
             print "Expected: " + managed_packages_list_page_url
             print "Actual: " + driver.current_url
-            print "Sleeping " + sleep_amount_per_attempt + " more seconds then trying again."
+            print "Sleeping " + str(sleep_amount_per_attempt) + " more seconds then trying again."
             driver.get(managed_packages_list_page_url)
             number_of_attempts += 1
             sleep(sleep_amount_per_attempt)
