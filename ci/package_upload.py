@@ -99,13 +99,14 @@ class SalesforceOAuth2(object):
 
 class PackageUpload(object):
 
-    def __init__(self, instance_url, refresh_token, package, oauth_client_id, oauth_client_secret, oauth_callback_url):
+    def __init__(self, instance_url, refresh_token, package, oauth_client_id, oauth_client_secret, oauth_callback_url, browser):
         self.instance_url = instance_url
         self.refresh_token = refresh_token
         self.package = package
         self.oauth_client_id = oauth_client_id
         self.oauth_client_secret = oauth_client_secret
         self.oauth_callback_url = oauth_callback_url
+        self.browser = browser
 
     def build_package(self, build_name):
         """ Builds a managed package by calling SauceLabs via Selenium to click the Upload button """
@@ -244,7 +245,8 @@ class PackageUpload(object):
         start_url = '%s/secur/frontdoor.jsp?sid=%s' % (self.instance_url, self.access_token)
         print 'Start URL seen as : %s' % start_url
 
-        driver = webdriver.Firefox()
+        driver = getattr(webdriver, self.browser)()
+        #driver = webdriver.Firefox()
         driver.get(start_url)
         return driver
 
@@ -266,9 +268,9 @@ def package_upload():
     build_commit = os.environ.get('BUILD_COMMIT')
     print "Build commit seen as : %s" % build_commit
     build_workspace = os.environ.get('BUILD_WORKSPACE')
-    print "Build workspace seen as : %s" % build_workspace
+    browser = os.environ.get('SELENIUM_BROWSER', 'Firefox')
 
-    uploader = PackageUpload(instance_url, refresh_token, package, oauth_client_id, oauth_client_secret, oauth_callback_url)
+    uploader = PackageUpload(instance_url, refresh_token, package, oauth_client_id, oauth_client_secret, oauth_callback_url, browser)
     uploader.build_package(build_name)
 
     print 'Build Complete'
