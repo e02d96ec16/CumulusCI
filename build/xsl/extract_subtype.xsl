@@ -6,14 +6,10 @@
 <xsl:output method="xml" version="1.0" encoding="UTF-8" indent="yes" xsl:indent-amount="4" xslt:indent-amount="4" xalan:indent-amount="4" />
 
     <xsl:template match="sf:___parentelement___">
-        <xsl:variable
-            name="element"
-            select="'sf:___element___'"
-        />
         <types>
         <xsl:for-each select="sf:___element___">
           <xsl:if test="not(contains($whitelist, concat(',', sf:___nameelement___, ',')))">
-            <xsl:if test="not(contains(substring(sf:___nameelement___, 0, string-length(sf:___nameelement___) - 2), '__')) or $element='sf:fieldSets'">
+            <xsl:if test="not(contains(substring(sf:___nameelement___, 0, string-length(sf:___nameelement___) - 2), '__'))">
                 <members><xsl:copy-of select="sf:___nameelement___/text()"/></members>
             </xsl:if>
           </xsl:if>
