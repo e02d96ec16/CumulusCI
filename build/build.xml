@@ -44,7 +44,7 @@
         <var name="sf.serverurl" value="${env.SF_SERVERURL}" />
       </then>
     </if>
-   
+
     <if>
       <isset property="env.SF_SESSIONID" />
       <then>
@@ -56,7 +56,7 @@
         <var name="sf.sessionId" value="" />
       </else>
     </if>
-    
+
     <!-- Load up cumulusci.properties file with package specific properties -->
     <loadproperties srcFile="${basedir}/cumulusci.properties"/>
 
@@ -251,7 +251,7 @@
                         <delete dir="uninstall" />
                         <buildPackagedDestructiveChanges srcdir="@{dir}" dir="uninstall" package="${cumulusci.package.name}" />
                         <echo>Uninstalling with purgeOnDelete=${cumulusci.destroy.purgeondelete}</echo>
-                        <sf:deploy username="${sf.username}" 
+                        <sf:deploy username="${sf.username}"
                           password="${sf.password}"
                           serverurl="${sf.serverurl}"
                           apiVersion="${cumulusci.package.apiVersion}"
@@ -420,7 +420,7 @@
                     <isset property="env.GITHUB_USERNAME" />
                     <not>
                         <equals arg1="env.GITHUB_USERNAME" arg2="" />
-                    </not>     
+                    </not>
                 </and>
                 <and>
                     <isset property="env.GITHUB_PASSWORD" />
@@ -446,7 +446,7 @@
                         <isset property="env.BUILD_COMMIT" />
                         <not>
                             <equals arg1="env.BUILD_COMMIT" arg2="" />
-                        </not>     
+                        </not>
                     </and>
                     <and>
                         <isset property="env.BITBUCKET_USERNAME" />
@@ -1201,17 +1201,6 @@
         <echo>Nothing to do for preDeployUpdatedAdminProfile</echo>
     </target>
 
-    <target name="testVersionComparison">
-      <UpDownGradeCheck installedVersion="1.1" buildVersion="2.0" />
-      <UpDownGradeCheck installedVersion="2.1.1" buildVersion="2.1.3" />
-      <UpDownGradeCheck installedVersion="3.3" buildVersion="3.4" />
-      <UpDownGradeCheck installedVersion="4.1" buildVersion="3.8" />
-      <UpDownGradeCheck installedVersion="5" buildVersion="1" />
-      <UpDownGradeCheck installedVersion="6" buildVersion="Not Installed" />
-      <UpDownGradeCheck installedVersion="Not Installed" buildVersion="7" />
-      <UpDownGradeCheck installedVersion="8 (Beta 1)" buildVersion="8 (Beta 2)" />
-      <UpDownGradeCheck installedVersion="8 (Beta 4)" buildVersion="8 (Beta 3)" />
-      <UpDownGradeCheck installedVersion="Not Installed" buildVersion="Not Installed" />
-    </target>
+    <include file="./tests.xml"/>
 
 </project>
