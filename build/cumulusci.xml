@@ -47,8 +47,8 @@
       }
 
       log("debug", 'Checking for up/downgrade...');
-      log("debug", "Installed Version parameter : " + installedVersionAttribute);
-      log("debug", "Requested Version parameter : " + buildVersionAttribute);
+      log("debug", "Given installed version: " + installedVersionAttribute);
+      log("debug", "Given requested version: " + buildVersionAttribute);
 
       var installedVersion = installedVersionAttribute === "Not Installed" ? 0.0 : installedVersionAttribute;
       var buildVersion = buildVersionAttribute;
