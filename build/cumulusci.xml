@@ -73,6 +73,8 @@
           log("debug", "Versions match already");
         } else if(isBetaInstalled || isBetaRequested){
           log("debug", "Beta versions are not up/down-gradable.");
+        } else if(buildVersionString === "Not Installed"){
+          log("debug", "'Not Installed' is not a supported version. That is because the way CCI employs this comparison is to use it to determine if it will generate and deploy a package.xml with the actual string of the requested version. 'Not Installed' is not a valid string to use in <major> and <minor> declarations in a package.xml.")
         } else {
           var threeLevelsDeepVersionsRegex = new RegExp("(\\d*)\\.?(\\d*)?\\.?(\\d*)?");
 
