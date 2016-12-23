@@ -83,11 +83,11 @@
 
           log("debug", "Installed Major String: " + installedVersionStringRegexResult[1]);
           log("debug", "Installed Minor String: " + installedVersionStringRegexResult[2]);
-  	    log("debug", "Installed Patch String: " + installedVersionStringRegexResult[3]);
+  	      log("debug", "Installed Patch String: " + installedVersionStringRegexResult[3]);
 
           log("debug", "Build Major String: " + buildVersionStringRegexResult[1]);
           log("debug", "Build Minor String: " + buildVersionStringRegexResult[2]);
-  	    log("debug", "Build Patch String: " + buildVersionStringRegexResult[3]);
+    	    log("debug", "Build Patch String: " + buildVersionStringRegexResult[3]);
 
           var installedVersionMajorNumber = parseInt(installedVersionStringRegexResult[1]);
           var installedVersionMinorNumber = parseInt(installedVersionStringRegexResult[2]);
@@ -147,6 +147,11 @@
       isUpgrade = versionComparisonResult > 0 ? true : false;
     	log("debug", "Downgrade ["+installedVersion+"] to ["+buildVersion+"]? " + isDowngrade);
       log("debug", "Upgrade ["+installedVersion+"] to ["+buildVersion+"]? " + isUpgrade);
+      var action = "";
+      if(isDowngrade) action = "should be downgraded to";
+      else if(isUpgrade) actiong = " should be upgraded to ";
+      else action = "should ignore"
+      log(installedVersion + " " + action + " " + buildVersion);
       project.setProperty("downgradePackage", isDowngrade);
     	project.setProperty("upgradePackage", isUpgrade);
 		]]>
