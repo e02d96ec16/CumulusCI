@@ -28,6 +28,8 @@
     <attribute name="loglevel" />
     <![CDATA[
       var logLevelAttribute = attributes.get("loglevel");
+      var installedVersionAttribute = attributes.get("installedversion");
+      var buildVersionAttribute = attributes.get("buildversion");
 
       var isQuietLogLevelOn = logLevelAttribute === "quiet";
       var isDebugLogLevelOn = logLevelAttribute === "debug";
@@ -45,11 +47,11 @@
       }
 
       log("debug", 'Checking for up/downgrade...');
-      log("debug", "Installed Version parameter : " + attributes.get("installedversion"));
-      log("debug", "Requested Version parameter : " + attributes.get("buildversion"));
+      log("debug", "Installed Version parameter : " + installedVersionAttribute);
+      log("debug", "Requested Version parameter : " + buildVersionAttribute);
 
-      var installedVersion = attributes.get("installedversion") === "Not Installed" ? 0.0 : attributes.get("installedversion");
-      var buildVersion = attributes.get("buildversion");
+      var installedVersion = installedVersionAttribute === "Not Installed" ? 0.0 : installedVersionAttribute;
+      var buildVersion = buildVersionAttribute;
       var isDowngrade = false;
       var isUpgrade = false;
 
