@@ -66,76 +66,78 @@
   	    log("debug", "Received installed version string: " + installedVersionString);
   	    log("debug", "Received build version string: " + buildVersionString);
 
-  	    var threeLevelsDeepVersionsRegex = new RegExp("(\\d*)\\.?(\\d*)?\\.?(\\d*)?");
+        if(installedVersionString === buildVersionString){
+          log("debug", "Versions match already");
+        } else {
+          var threeLevelsDeepVersionsRegex = new RegExp("(\\d*)\\.?(\\d*)?\\.?(\\d*)?");
 
-  	    var installedVersionStringRegexResult = threeLevelsDeepVersionsRegex.exec(installedVersionString);
-  	    var buildVersionStringRegexResult = threeLevelsDeepVersionsRegex.exec(buildVersionString);
+          var installedVersionStringRegexResult = threeLevelsDeepVersionsRegex.exec(installedVersionString);
+          var buildVersionStringRegexResult = threeLevelsDeepVersionsRegex.exec(buildVersionString);
 
-  	    log("debug", "Installed Major String: " + installedVersionStringRegexResult[1]);
-  	    log("debug", "Installed Minor String: " + installedVersionStringRegexResult[2]);
+          log("debug", "Installed Major String: " + installedVersionStringRegexResult[1]);
+          log("debug", "Installed Minor String: " + installedVersionStringRegexResult[2]);
   	    log("debug", "Installed Patch String: " + installedVersionStringRegexResult[3]);
 
-  	    log("debug", "Build Major String: " + buildVersionStringRegexResult[1]);
-  	    log("debug", "Build Minor String: " + buildVersionStringRegexResult[2]);
+          log("debug", "Build Major String: " + buildVersionStringRegexResult[1]);
+          log("debug", "Build Minor String: " + buildVersionStringRegexResult[2]);
   	    log("debug", "Build Patch String: " + buildVersionStringRegexResult[3]);
 
-  	    var installedVersionMajorNumber = parseInt(installedVersionStringRegexResult[1]);
-  	    var installedVersionMinorNumber = parseInt(installedVersionStringRegexResult[2]);
-  	    var installedVersionPatchNumber = parseInt(installedVersionStringRegexResult[3]);
+          var installedVersionMajorNumber = parseInt(installedVersionStringRegexResult[1]);
+          var installedVersionMinorNumber = parseInt(installedVersionStringRegexResult[2]);
+          var installedVersionPatchNumber = parseInt(installedVersionStringRegexResult[3]);
 
-  	    log("debug", "Installed Major Number: " + installedVersionMajorNumber);
-  	    log("debug", "Installed Minor Number: " + installedVersionMinorNumber);
-  	    log("debug", "Installed Patch Number: " + installedVersionPatchNumber);
+          log("debug", "Installed Major Number: " + installedVersionMajorNumber);
+          log("debug", "Installed Minor Number: " + installedVersionMinorNumber);
+          log("debug", "Installed Patch Number: " + installedVersionPatchNumber);
 
-  	    var buildVersionMajorNumber = parseInt(buildVersionStringRegexResult[1]);
-  	    var buildVersionMinorNumber = parseInt(buildVersionStringRegexResult[2]);
-  	    var buildVersionPatchNumber = parseInt(buildVersionStringRegexResult[3]);
+          var buildVersionMajorNumber = parseInt(buildVersionStringRegexResult[1]);
+          var buildVersionMinorNumber = parseInt(buildVersionStringRegexResult[2]);
+          var buildVersionPatchNumber = parseInt(buildVersionStringRegexResult[3]);
 
-  	    log("debug", "Build Major Number: " + buildVersionMajorNumber);
-  	    log("debug", "Build Minor Number: " + buildVersionMinorNumber);
-  	    log("debug", "Build Patch Number: " + buildVersionPatchNumber);
+          log("debug", "Build Major Number: " + buildVersionMajorNumber);
+          log("debug", "Build Minor Number: " + buildVersionMinorNumber);
+          log("debug", "Build Patch Number: " + buildVersionPatchNumber);
 
-  	    if(
-	        !isNaN(installedVersionMajorNumber) &&
-	        !isNaN(buildVersionMajorNumber)
-  	    )
-  	    {
-	        if(installedVersionMajorNumber < buildVersionMajorNumber){
-            resolution = UPGRADE;
-	        }
-	        else if(installedVersionMajorNumber > buildVersionMajorNumber){
-            resolution = DOWNGRADE;
-	        }
-	        else if(installedVersionMajorNumber === buildVersionMajorNumber)
-	        {
-            if(
-              !isNaN(installedVersionMinorNumber) &&
-              !isNaN(buildVersionMinorNumber)
-            )
+          if(
+            !isNaN(installedVersionMajorNumber) &&
+            !isNaN(buildVersionMajorNumber)
+          )
+          {
+            if(installedVersionMajorNumber < buildVersionMajorNumber){
+              resolution = UPGRADE;
+            }
+            else if(installedVersionMajorNumber > buildVersionMajorNumber){
+              resolution = DOWNGRADE;
+            }
+            else if(installedVersionMajorNumber === buildVersionMajorNumber)
             {
-              if(installedVersionMinorNumber < buildVersionMinorNumber){
-                resolution = UPGRADE;
-              }
-              else if(installedVersionMinorNumber > buildVersionMinorNumber){
-                resolution = DOWNGRADE;
-              }
-              else if(installedVersionMinorNumber === buildVersionMinorNumber){
-                resolution = IGNORE;
-                log("debug", "Patch difference only.")
+              if(
+                !isNaN(installedVersionMinorNumber) &&
+                !isNaN(buildVersionMinorNumber)
+              )
+              {
+                if(installedVersionMinorNumber < buildVersionMinorNumber){
+                  resolution = UPGRADE;
+                }
+                else if(installedVersionMinorNumber > buildVersionMinorNumber){
+                  resolution = DOWNGRADE;
+                }
+                else if(installedVersionMinorNumber === buildVersionMinorNumber){
+                  resolution = IGNORE;
+                  log("debug", "Patch difference only.")
+                }
               }
             }
-	        }
-  	    }
+          }
+        }
   	    return resolution;
     	}
       var isDowngrade = false;
       var isUpgrade = false;
-      if(buildVersion !== installedVersion){
-        var versionComparisonResult = versionCompare(installedVersion, buildVersion);
-        log("debug", "Comparison outcome : " + versionComparisonResult);
-        isDowngrade = versionComparisonResult < 0 ? true : false;
-        isUpgrade = versionComparisonResult > 0 ? true : false;
-      }
+      var versionComparisonResult = versionCompare(installedVersion, buildVersion);
+      log("debug", "Comparison outcome : " + versionComparisonResult);
+      isDowngrade = versionComparisonResult < 0 ? true : false;
+      isUpgrade = versionComparisonResult > 0 ? true : false;
     	log("debug", "Downgrade ["+installedVersion+"] to ["+buildVersion+"]? " + isDowngrade);
       log("debug", "Upgrade ["+installedVersion+"] to ["+buildVersion+"]? " + isUpgrade);
       project.setProperty("downgradePackage", isDowngrade);
