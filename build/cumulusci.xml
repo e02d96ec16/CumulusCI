@@ -66,8 +66,13 @@
   	    log("debug", "Received installed version string: " + installedVersionString);
   	    log("debug", "Received build version string: " + buildVersionString);
 
+        var isBetaInstalled = installedVersionString.indexOf("Beta") > -1;
+        var isBetaRequested = buildVersionString.indexOf("Beta") > -1;
+
         if(installedVersionString === buildVersionString){
           log("debug", "Versions match already");
+        } else if(isBetaInstalled || isBetaRequested){
+          log("debug", "Beta versions are not up/down-gradable.");
         } else {
           var threeLevelsDeepVersionsRegex = new RegExp("(\\d*)\\.?(\\d*)?\\.?(\\d*)?");
 
