@@ -52,8 +52,6 @@
 
       var installedVersion = installedVersionAttribute === "Not Installed" ? 0.0 : installedVersionAttribute;
       var buildVersion = buildVersionAttribute;
-      var isDowngrade = false;
-      var isUpgrade = false;
 
     	function versionCompare(installedVersion, buildVersion) {
     	    var IGNORE = 0;
@@ -130,7 +128,8 @@
     	    }
     	    return resolution;
     	}
-
+      var isDowngrade = false;
+      var isUpgrade = false;
       if(buildVersion !== installedVersion){
         if(buildVersion !== "Not Installed"){
           var versionComparisonResult = versionCompare(installedVersion, buildVersion);
