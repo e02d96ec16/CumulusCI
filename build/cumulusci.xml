@@ -25,10 +25,28 @@
   <scriptdef name="UpDownGradeCheck" language="javascript">
     <attribute name="installedversion" />
     <attribute name="buildversion" />
+    <attribute name="loglevel" />
     <![CDATA[
-      self.log('Checking for up/downgrade...');
-      self.log("Installed Version parameter : " + attributes.get("installedversion"));
-      self.log("Requested Version parameter : " + attributes.get("buildversion"));
+      var logLevelAttribute = attributes.get("loglevel");
+
+      var isQuietLogLevelOn = logLevelAttribute === "quiet";
+      var isDebugLogLevelOn = logLevelAttribute === "debug";
+
+      function log(){
+        if( arguments.length > 0 ){
+          if( arguments[0] === "debug" ){
+            if( isDebugLogLevelOn ){
+              self.log(Array.prototype.slice.call(arguments,1).join(" "));
+            }
+          } else if ( !isQuietLogLevelOn ){
+              self.log(Array.prototype.slice.call(arguments).join(" "));
+          }
+        }
+      }
+
+      self.log("debug", 'Checking for up/downgrade...');
+      self.log("debug", "Installed Version parameter : " + attributes.get("installedversion"));
+      self.log("debug", "Requested Version parameter : " + attributes.get("buildversion"));
 
       var installedVersion = attributes.get("installedversion") === "Not Installed" ? 0.0 : attributes.get("installedversion");
       var buildVersion = attributes.get("buildversion");
@@ -45,37 +63,37 @@
     	    var installedVersionString = String(installedVersion);
     	    var buildVersionString = String(buildVersion);
 
-    	    self.log("Received installed version string: " + installedVersionString);
-    	    self.log("Received build version string: " + buildVersionString);
+    	    self.log("debug", "Received installed version string: " + installedVersionString);
+    	    self.log("debug", "Received build version string: " + buildVersionString);
 
     	    var threeLevelsDeepVersionsRegex = new RegExp("(\\d*)\\.?(\\d*)?\\.?(\\d*)?");
 
     	    var installedVersionStringRegexResult = threeLevelsDeepVersionsRegex.exec(installedVersionString);
     	    var buildVersionStringRegexResult = threeLevelsDeepVersionsRegex.exec(buildVersionString);
 
-    	    self.log("Installed Major String: " + installedVersionStringRegexResult[1]);
-    	    self.log("Installed Minor String: " + installedVersionStringRegexResult[2]);
-    	    self.log("Installed Patch String: " + installedVersionStringRegexResult[3]);
-    	    
-    	    self.log("Build Major String: " + buildVersionStringRegexResult[1]);
-    	    self.log("Build Minor String: " + buildVersionStringRegexResult[2]);
-    	    self.log("Build Patch String: " + buildVersionStringRegexResult[3]);
+    	    self.log("debug", "Installed Major String: " + installedVersionStringRegexResult[1]);
+    	    self.log("debug", "Installed Minor String: " + installedVersionStringRegexResult[2]);
+    	    self.log("debug", "Installed Patch String: " + installedVersionStringRegexResult[3]);
+
+    	    self.log("debug", "Build Major String: " + buildVersionStringRegexResult[1]);
+    	    self.log("debug", "Build Minor String: " + buildVersionStringRegexResult[2]);
+    	    self.log("debug", "Build Patch String: " + buildVersionStringRegexResult[3]);
 
     	    var installedVersionMajorNumber = parseInt(installedVersionStringRegexResult[1]);
     	    var installedVersionMinorNumber = parseInt(installedVersionStringRegexResult[2]);
     	    var installedVersionPatchNumber = parseInt(installedVersionStringRegexResult[3]);
-    	    
-    	    self.log("Installed Major Number: " + installedVersionMajorNumber);
-    	    self.log("Installed Minor Number: " + installedVersionMinorNumber);
-    	    self.log("Installed Patch Number: " + installedVersionPatchNumber);
+
+    	    self.log("debug", "Installed Major Number: " + installedVersionMajorNumber);
+    	    self.log("debug", "Installed Minor Number: " + installedVersionMinorNumber);
+    	    self.log("debug", "Installed Patch Number: " + installedVersionPatchNumber);
 
     	    var buildVersionMajorNumber = parseInt(buildVersionStringRegexResult[1]);
     	    var buildVersionMinorNumber = parseInt(buildVersionStringRegexResult[2]);
     	    var buildVersionPatchNumber = parseInt(buildVersionStringRegexResult[3]);
-    	    
-    	    self.log("Build Major Number: " + buildVersionMajorNumber);
-    	    self.log("Build Minor Number: " + buildVersionMinorNumber);
-    	    self.log("Build Patch Number: " + buildVersionPatchNumber);
+
+    	    self.log("debug", "Build Major Number: " + buildVersionMajorNumber);
+    	    self.log("debug", "Build Minor Number: " + buildVersionMinorNumber);
+    	    self.log("debug", "Build Patch Number: " + buildVersionPatchNumber);
 
     	    if(
     	        !isNaN(installedVersionMajorNumber) &&
@@ -103,24 +121,24 @@
     	                }
     	                else if(installedVersionMinorNumber === buildVersionMinorNumber){
     	                    resolution = IGNORE;
-    	                    self.log("Patch difference only.")
+    	                    self.log("debug", "Patch difference only.")
     	                }
     	            }
     	        }
     	    }
-    	    return resolution;  
+    	    return resolution;
     	}
 
       if(buildVersion !== installedVersion){
         if(buildVersion !== "Not Installed"){
           var versionComparisonResult = versionCompare(installedVersion, buildVersion);
-          self.log("Comparison outcome : " + versionComparisonResult);
+          self.log("debug", "Comparison outcome : " + versionComparisonResult);
           isDowngrade = versionComparisonResult < 0 ? true : false;
           isUpgrade = versionComparisonResult > 0 ? true : false;
         }
       }
-    	self.log("Downgrade ["+installedVersion+"] to ["+buildVersion+"]? " + isDowngrade);
-      self.log("Upgrade ["+installedVersion+"] to ["+buildVersion+"]? " + isUpgrade);
+    	self.log("debug", "Downgrade ["+installedVersion+"] to ["+buildVersion+"]? " + isDowngrade);
+      self.log("debug", "Upgrade ["+installedVersion+"] to ["+buildVersion+"]? " + isUpgrade);
       project.setProperty("downgradePackage", isDowngrade);
     	project.setProperty("upgradePackage", isUpgrade);
 		]]>
@@ -702,7 +720,7 @@
               <replaceregexp file="${xslt_rendered_file}" match="___parentelement___" replace="@{parentelement}" flags="g" />
               <replaceregexp file="${xslt_rendered_file}" match="___element___" replace="@{element}" flags="g" />
               <replaceregexp file="${xslt_rendered_file}" match="___nameelement___" replace="@{nameelement}" flags="g" />
-             
+
               <!-- Run xslt to build a file for each parent containing <members/> elements for components -->
               <getWhitelistForObjectAndType object="${parent}" type="@{typename}" property="obj_type_whitelist" />
               <xslt in="@{file}" out="@{dir}/${parent_file}.@{typename}" style="${xslt_rendered_file}">
