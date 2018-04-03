@@ -14,7 +14,7 @@ import time
 import zipfile
 
 import hiyapyco
-from github3.repos.repo import Release
+from github3.repos.release import Release
 from simple_salesforce import Salesforce
 from simple_salesforce import SalesforceGeneralError
 from salesforce_bulk import SalesforceBulk
