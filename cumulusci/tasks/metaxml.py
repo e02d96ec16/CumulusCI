@@ -1,3 +1,4 @@
+import eol
 import fileinput
 import os
 import re
@@ -30,6 +31,8 @@ class MetaXmlBaseTask(BaseTask):
                         self.logger.info('No changes for file %s', filename)
 
     def _write_file(self, tree, filename):
+        # store line ending the file initially had, before ET modifies it
+        original_line_endings = eol.eol_info_from_path(filename)[0]
         tree.write(
             filename,
             xml_declaration=True,
@@ -42,6 +45,10 @@ class MetaXmlBaseTask(BaseTask):
                 sys.stdout.write(line.replace("'", '"'))
             else:
                 sys.stdout.write(line)
+        # change back to the initial line endings to minimize diffs
+        # ignored line endings cases: CR (rare), mixed (not feasible)
+        if original_line_endings is eol.CRLF or original_line_endings is eol.LF:
+            eol.convert_path_eol(filename, original_line_endings)
 
 
 class UpdateApi(MetaXmlBaseTask):
